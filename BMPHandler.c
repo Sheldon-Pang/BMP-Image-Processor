@@ -1,8 +1,8 @@
 /**
 * Implementation of several functions to manipulate BMP files.
- *
-* @author Bichen Pang
-* @version 1.0 May 26 2022
+*
+* @author Sheldon Pang
+* @version 1.0
 */
 
 #include <stdio.h>
@@ -85,8 +85,10 @@ void writeDIBHeader(FILE* file, struct DIB_Header* header) {
  * @param  height: Height of the image that this header is for
  */
 void makeBMPHeader(struct BMP_Header* header, int width, int height) {
-    //we only need change the size of the header
+    //change the size of the header
     header->size = width * height * 3 + 54;
+    //update image offset value
+    header->offset_pixel_array = 54;
 }
 
 /**

@@ -1,8 +1,16 @@
 /**
- * Implementation of the main.c file, BMPHandler.c and Image.c
+ * A program that read an BMP image file, applying filter, and save to disk.
+ * Filter implemented in this version:
+ * 1. Grayscale Filter
+ * 2. Color Shift Filter
+ * 3. Scaling Filter
  *
- * @author Bichen Pang
- * @version 1.0 May 28 2022
+ * @author Sheldon Pang
+ * @version 1.1
+ *
+ * Update info:
+ * In version 1.1: fixed image offset issue.
+ * Now will skip bytes based on the image offset value, and update the output file's offset value accordingly.
 */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +40,7 @@ int main(int argc,char* argv[]) {
     float scale = 1;
     char *input_filename = NULL;
     char *output_filename = "default_output.bmp"; // default name
+    int skipByOffSetValue = 0;
 
     // default color shift value is 0
     int red_shift = 0, green_shift = 0, blue_shift = 0;
@@ -96,6 +105,14 @@ int main(int argc,char* argv[]) {
         pixels[p] = (struct Pixel*)malloc(sizeof(struct Pixel) * DIB.image_width);
     }
 
+    printf("The image height is: %d width is: %d\n", DIB.image_height, DIB.image_width);
+
+    // readBMPHeader +  readDIBHeader is 54 byte
+    // skip additional info based on file offset value
+    skipByOffSetValue = BMP.offset_pixel_array - 54;
+    fseek(file_input, skipByOffSetValue, SEEK_CUR);
+    printf("The skipByOffSetValue is: %d\n", skipByOffSetValue);
+
     // store pixels info into array pixels
     readPixelsBMP(file_input, pixels, DIB.image_width, DIB.image_height);
 
@@ -124,10 +141,12 @@ int main(int argc,char* argv[]) {
 
     FILE* file_output = fopen(output_filename, "wb");
 
-
     // update header and dib info
     makeBMPHeader(&BMP, img->width, img->height);
     makeDIBHeader(&DIB, img->width, img->height);
+
+    ///////////////
+    printf("The update BMP offset value is: %d\n", BMP.offset_pixel_array);
 
     // write update header and dib info
     writeBMPHeader(file_output, &BMP);
@@ -142,6 +161,7 @@ int main(int argc,char* argv[]) {
     // free memory
     image_destroy(&img);
     free(pixels);
+    pixels = NULL;
 
     printf("----------------------------------\n");
     printf("   Image processed successfully\n");
