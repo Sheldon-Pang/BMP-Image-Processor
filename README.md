@@ -17,7 +17,8 @@
 Note: command to compile in gcc 'gcc PangImageProcessor.c Image.c BMPHandler.c -o ImageProcessor'
 
   usage:
-                ./ImageProcessor -f filename [-h] [-r -g -b val] [-w] [-s val] [-o filename]
+                
+              ./ImageProcessor -f filename [-h] [-r -g -b val] [-w] [-s val] [-o filename]
                    -f  filename:    must have a input file name  to run!
                    -r  value:       use value to increase or decrease the color red
                    -g  value:       use value to increase or decrease the color green
