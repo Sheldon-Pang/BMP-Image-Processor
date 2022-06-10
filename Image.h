@@ -1,8 +1,8 @@
 /**
-* Specification for an image ADT.
+* Header file for the image ADT.
 *
-* @author Bichen Pang
-* @version 1.0 May 26 2022
+* @author Sheldon Pang
+* @version 1.0
 */
 
 #ifndef PixelProcessor_H
@@ -14,7 +14,6 @@
 #include <stdlib.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-// Type Definitions
 typedef struct Image Image;
 
 struct Image {
@@ -24,7 +23,6 @@ struct Image {
 };
 
 struct Pixel{
-    //TODO: Finish struct
     unsigned char red;
     unsigned char green;
     unsigned char blue;
@@ -33,7 +31,7 @@ struct Pixel{
 ////////////////////////////////////////////////////////////////////////////////
 //Function Declarations
 
-/* Creates a new image and returns it.
+/** Creates a new image and returns it.
 *
  * @param  pArr: Pixel array of this image.
  * @param  width: Width of this image.
@@ -43,31 +41,31 @@ struct Pixel{
 Image* image_create(struct Pixel** pArr, int width, int height);
 
 
-/* Destroys an image. Does not deallocate internal pixel array.
+/** Destroys an image. Does not deallocate internal pixel array.
 *
  * @param  img: the image to destroy.
 */
 void image_destroy(Image** img);
 
-/* Returns a double pointer to the pixel array.
+/** Returns a double pointer to the pixel array.
 *
  * @param  img: the image.
 */
 struct Pixel** image_get_pixels(Image* img);
 
-/* Returns the width of the image.
+/** Returns the width of the image.
 *
  * @param  img: the image.
 */
 int image_get_width(Image* img);
 
-/* Returns the height of the image.
+/** Returns the height of the image.
 *
  * @param  img: the image.
 */
 int image_get_height(Image* img);
 
-/* Converts the image to grayscale.
+/** Converts the image to grayscale.
 *
  * @param  img: the image.
 */
@@ -84,7 +82,7 @@ void image_apply_bw(Image* img);
  */
 void image_apply_colorshift(Image* img, int rShift, int gShift, int bShift);
 
-/* Converts the image to grayscale. If the scaling factor is less than 1 the new image will be
+/** Converts the image to grayscale. If the scaling factor is less than 1 the new image will be
  * smaller, if it is larger than 1, the new image will be larger.
  *
  * @param  img: the image.
